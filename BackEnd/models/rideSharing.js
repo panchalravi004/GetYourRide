@@ -32,7 +32,7 @@ const rideSharingSchema = new mongoose.Schema(
             type:String,
             enum:[
                 'Pending','Cancel By Seeker','Cancel By Provider',
-                'Accepted','Payment Pending','Not Pickup','Pickup',
+                'Payment Pending','Not Pickup','Pickup',
                 'Dropped'
             ]
         },

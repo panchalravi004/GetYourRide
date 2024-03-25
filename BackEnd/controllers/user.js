@@ -29,7 +29,7 @@ async function handleUserLogin(req, res){
         }
 
         const token = jwt.sign({ userId: user._id }, JWT_SECRET_KEY, {
-            expiresIn: '2h',
+            expiresIn: '5h',
         });
         return res.status(200).json({ status:'Success', message:'Authentication successfully!', token, user });
 

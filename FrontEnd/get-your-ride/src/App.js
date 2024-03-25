@@ -11,6 +11,7 @@ import Wrapper from "./components/Helper/Wrapper";
 import Rides from "./components/Rides/Rides";
 import RideRequests from "./components/RideRequests/RideRequests";
 import SharedRides from "./components/SharedRides/SharedRides";
+import PaymentRedirect from "./components/PaymentRedirect";
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
         <Route exact path="/rides" element={<Wrapper> <Rides onspinner={onspinner}/> </Wrapper>}></Route>
         <Route exact path="/riderequest" element={<Wrapper> <RideRequests onspinner={onspinner}/> </Wrapper>}></Route>
         <Route exact path="/sharedrides" element={<Wrapper> <SharedRides onspinner={onspinner}/> </Wrapper>}></Route>
+        <Route exact path="/paymentredirect/:ridesharing/:id" element={<Wrapper> <PaymentRedirect onspinner={onspinner}/> </Wrapper>}></Route>
         <Route exact path="/*" element={<Navigate to="/"/>}></Route>
       </Routes>
     </Router>

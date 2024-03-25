@@ -22,7 +22,7 @@ router
 .post(handleCreateRideSharing)
 
 router.get('/seeker',verifyToken,handleGetAllRideSharingsForSeeker)
-router.get('/provider',verifyToken,handleGetAllRideSharingsForProvider)
+router.post('/provider',verifyToken,handleGetAllRideSharingsForProvider)
 
 router.post('/status/:id',verifyToken,handleUpdateRideSharingStatusById)
 

@@ -20,7 +20,7 @@ async function handleCreateRideSharing(req, res) {
         const doc = await rideSharing.save();
         return res.status(200).json({
             status: 'Success',
-            message: 'Ride sharing created successfully!',
+            message: 'Ride sharing request successfully!',
             id: doc._id
         });
     } catch (error) {
@@ -37,12 +37,13 @@ async function handleGetAllRideSharings(req, res) {
 }
 
 async function handleGetAllRideSharingsForSeeker(req, res) {
-    const rideSharings = await RideSharing.find({Seeker: req.userId}).populate('Ride').sort('-createdAt');;
+    const rideSharings = await RideSharing.find({Seeker: req.userId}).populate('Ride').populate('Seeker').sort('-createdAt');;
     return res.json(rideSharings);
 }
 
 async function handleGetAllRideSharingsForProvider(req, res) {
-    const rideSharings = await RideSharing.find({Provider: req.userId}).populate('Ride').sort('-createdAt');;
+    const { Status } = req.body;
+    const rideSharings = await RideSharing.find({Provider: req.userId, Status: { $in: [...Status] }}).populate('Ride').sort('-createdAt');;
     return res.json(rideSharings);
 }
 

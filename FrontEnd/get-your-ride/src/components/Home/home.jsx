@@ -206,6 +206,11 @@ function Home({ onspinner }) {
             console.log('handleMakeRideRequest :: ',result);
             if(result.status == 'Success'){
                 toast.success(result.message)
+
+                // socket.emit('riderequestnotification', {
+                //     userId: selectedActiveRide.User
+                // })
+
                 setTimeout(() => {
                     window.location.href = '/riderequest'
                     onspinner(false);

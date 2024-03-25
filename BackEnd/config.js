@@ -1,7 +1,11 @@
 const JWT_SECRET_KEY = 'getyourride2024';
 const GEOAPIFY_API_KEY = "23924794d72c4bae8f3299f6aec64634";
+const RAZORPAY_API_KEY = "rzp_test_vM2e3ij5SdmJcM";
+const RAZORPAY_API_SECRET = "Tky92W11wj9IRcqiMvV0QIsu";
 
 module.exports = {
     JWT_SECRET_KEY,
-    GEOAPIFY_API_KEY
+    GEOAPIFY_API_KEY,
+    RAZORPAY_API_KEY,
+    RAZORPAY_API_SECRET
 }

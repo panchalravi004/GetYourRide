@@ -87,7 +87,7 @@ async function handleGetRidePlanning(req, res) {
 
     return res.status(200).json({
         status: 'Success',
-        message: `${validRideForRoute.length == 0 ? 'No matching ride found!' : (validRideForRoute.length+' Rides match your route!')} `,
+        message: `${validRideForRoute.length == 0 ? 'No matching ride found!' : (validRideForRoute.length+' rides matching your route!!')} `,
         rides: validRideForRoute
     });
 }

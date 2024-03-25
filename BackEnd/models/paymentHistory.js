@@ -2,9 +2,9 @@ const mongoose = require('mongoose')
 
 const paymentHistorySchema = new mongoose.Schema(
     {
-        Ride:{
+        RideSharing:{
             type:mongoose.Schema.Types.ObjectId,
-            ref:'ride'
+            ref:'rideSharing'
         },
         User:{
             type:mongoose.Schema.Types.ObjectId,
@@ -13,12 +13,15 @@ const paymentHistorySchema = new mongoose.Schema(
         PaymentId:{
             type:String
         },
+        PaymentLinkId:{
+            type:String
+        },
         Amount:{
             type:Number
         },
         Status:{
             type:String,
-            enum:['Faild','Success']
+            enum:['Faild','In Progress','Success']
         }
     },
     {timestamps:true}
