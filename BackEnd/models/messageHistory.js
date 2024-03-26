@@ -2,18 +2,22 @@ const mongoose = require('mongoose')
 
 const messageHistorySchema = new mongoose.Schema(
     {
-        Ride:{
+        RideSharing:{
             type:mongoose.Schema.Types.ObjectId,
-            ref:'ride'
+            ref:'rideSharing'
         },
         Sender:{
             type:mongoose.Schema.Types.ObjectId,
             ref:'user'
         },
         Receiver:{
-            type:String
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'user'
         },
         Message:{
+            type:String
+        },
+        SendTime:{
             type:Number
         }
     },

@@ -6,3 +6,5 @@ const URL = 'http://localhost:8000';
 export const socket = io(URL,{
     autoConnect: false
 });
+
+// export const socket = io.connect(SOCKET_IO_URL, {query: {token: jwt}});

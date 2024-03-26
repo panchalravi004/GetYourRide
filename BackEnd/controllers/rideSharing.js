@@ -37,13 +37,13 @@ async function handleGetAllRideSharings(req, res) {
 }
 
 async function handleGetAllRideSharingsForSeeker(req, res) {
-    const rideSharings = await RideSharing.find({Seeker: req.userId}).populate('Ride').populate('Seeker').sort('-createdAt');;
+    const rideSharings = await RideSharing.find({Seeker: req.userId}).populate('Ride').populate('Seeker').populate('Provider').sort('-createdAt');;
     return res.json(rideSharings);
 }
 
 async function handleGetAllRideSharingsForProvider(req, res) {
     const { Status } = req.body;
-    const rideSharings = await RideSharing.find({Provider: req.userId, Status: { $in: [...Status] }}).populate('Ride').sort('-createdAt');;
+    const rideSharings = await RideSharing.find({Provider: req.userId, Status: { $in: [...Status] }}).populate('Ride').populate('Seeker').sort('-createdAt');;
     return res.json(rideSharings);
 }
 

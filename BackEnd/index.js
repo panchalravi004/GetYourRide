@@ -11,6 +11,8 @@ const userRouter = require('./routes/user')
 const rideRouter = require('./routes/ride')
 const rideSharingRouter = require('./routes/rideSharing')
 const paymentHistoryRouter = require('./routes/paymentHistory')
+const messageHistoryRouter = require('./routes/messageHistory');
+const { connection } = require('./controllers/socket');
 
 // Init Server
 const app = express();
@@ -39,19 +41,9 @@ app.use('/api/v1/user', userRouter)
 app.use('/api/v1/ride', rideRouter)
 app.use('/api/v1/ridesharing', rideSharingRouter)
 app.use('/api/v1/paymenthistory', paymentHistoryRouter)
+app.use('/api/v1/messagehistory', messageHistoryRouter)
 
-// io.on('connection', (socket) => {
-//     console.log('User connected ', socket.id);
-//     socket.on('riderequestnotification',(data)=>{
-//         console.log('User connected ', socket.id);
-//         socket.broadcast.emit('notificationreceived', data)
-//     })
-    
-//     socket.on('riderequestupdates',(data)=>{
-//         console.log('riderequestupdates ', socket.id);
-//         socket.broadcast.emit('riderequestupdates', data)
-//     })
-// });
+io.on('connection', connection);
 
 // Server Listener
 server.listen(PORT,()=>{
