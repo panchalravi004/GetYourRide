@@ -13,6 +13,7 @@ const rideSharingRouter = require('./routes/rideSharing')
 const paymentHistoryRouter = require('./routes/paymentHistory')
 const messageHistoryRouter = require('./routes/messageHistory');
 const { connection } = require('./controllers/socket');
+const { sendContactUsEmail } = require('./controllers/nodemailer');
 
 // Init Server
 const app = express();
@@ -42,6 +43,7 @@ app.use('/api/v1/ride', rideRouter)
 app.use('/api/v1/ridesharing', rideSharingRouter)
 app.use('/api/v1/paymenthistory', paymentHistoryRouter)
 app.use('/api/v1/messagehistory', messageHistoryRouter)
+app.use('/api/v1/sendemail', verifyToken, sendContactUsEmail)
 
 io.on('connection', connection);
 

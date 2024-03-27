@@ -7,7 +7,8 @@ const {
     handleUpdateRideById, 
     handleDeleteRideById, 
     handleUpdateRideStatusById, 
-    handleGetRidePlanning
+    handleGetRidePlanning,
+    handleUpdateRideSeekerCount
 } = require('../controllers/ride');
 
 const { verifyToken } = require('../middleware');
@@ -22,6 +23,7 @@ router
 
 router.post('/status/:id',verifyToken,handleUpdateRideStatusById)
 router.post('/planning',verifyToken,handleGetRidePlanning)
+router.post('/seekercount',verifyToken,handleUpdateRideSeekerCount)
 
 router
 .route("/:id")

@@ -57,11 +57,35 @@ function PaymentRedirect({ onspinner }) {
             onspinner(false);
         } else {
             console.log('handleRideRequestStatus : ', result)
+            
+            let seekerCountResult = await handleRideRequestSeekerCount(id,token)
+            
+            console.log('handleRideRequestStatus seekerCountResult: ', seekerCountResult)
+            
             setTimeout(() => {
                 onspinner(false)
                 window.location.href = '/riderequest';
             }, 2000);
         }
+    }
+
+    const handleRideRequestSeekerCount = async (id, token) => {
+
+        const response = await fetch(`${SERVER_API_HOST}/ride/seekercount`, {
+            method: 'POST',
+            body: JSON.stringify({ RideSharingId:id }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            }
+        });
+
+        const result = await response.json()
+        if (result.status == 'TokenExpired') {
+            handleTokenExpired()
+        }
+
+        return result;
     }
 
     const handleTokenExpired = () => {

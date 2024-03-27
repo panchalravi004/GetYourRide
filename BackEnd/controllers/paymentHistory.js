@@ -1,5 +1,7 @@
+const { default: mongoose } = require('mongoose');
 const { RAZORPAY_API_KEY, RAZORPAY_API_SECRET } = require('../config');
 const PaymentHistory = require('../models/paymentHistory');
+const RideSharing = require('../models/rideSharing');
 
 async function handleCreatePaymentHistory(req, res) {
     try {
@@ -23,7 +25,7 @@ async function handleCreatePaymentHistory(req, res) {
 
         const raw = JSON.stringify({
             "amount": Amount*100,
-            "currency": "INR",
+            "currency": "USD",
             "expire_by": expiredTime.getTime(),
             "reference_id": new Date().getTime()+':'+RideSharing,
             "description": "Payment For Your Ride Sharing Request",
@@ -86,6 +88,27 @@ async function handleCreatePaymentHistory(req, res) {
 async function handleGetAllPaymentHistories(req, res) {
     const paymentHistories = await PaymentHistory.find();
     return res.json(paymentHistories);
+}
+
+async function handleGetAllPaymentTotalByUserId(req, res) {
+    
+    // Places.find({location: { $in: [location ids] }}).then(places => {...})
+    let allRideSharing = await RideSharing.find({ Provider: req.userId }).select('_id');
+
+    allRideSharing = allRideSharing.map((ele)=> ele._id)
+    
+    // Find payment histories related to the retrieved ride sharing records
+    const paymentHistories = await PaymentHistory.aggregate([
+        {$match : {RideSharing: { $in: [...allRideSharing]}}},
+        {$group : {_id:null, totalAmount:{$sum:"$Amount"}}}
+    ]);
+    
+    console.log('paymentHistories ', paymentHistories.length);
+
+    // Retrieve the total amount from the result
+    const totalAmount = paymentHistories.length > 0 ? paymentHistories[0].totalAmount : 0;
+
+    return res.json({status:'Success',message:'Payment Fetch Successfully!',totalAmount});
 }
 
 async function handleGetPaymentHistoryById(req, res) {
@@ -169,5 +192,6 @@ module.exports = {
     handleGetPaymentHistoryById,
     handleUpdatePaymentHistoryById,
     handleDeletePaymentHistoryById,
-    handleUpdatePaymentHistory
+    handleUpdatePaymentHistory,
+    handleGetAllPaymentTotalByUserId
 };

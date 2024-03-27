@@ -263,6 +263,33 @@ function SharedRides({ onspinner }) {
         socket.disconnect()
     }
 
+    const handleChangePickupStatus = (e)=>{
+        var status = e.currentTarget.dataset.status;
+        var id = e.currentTarget.dataset.id;
+        handleRideRequestStatus(id, status == 'Pickup' ? 'Dropped' : 'Pickup')
+    }
+
+    const handleRideRequestStatus = async (id, Status) => {
+        onspinner(true);
+        const response = await fetch(`${SERVER_API_HOST}/ridesharing/status/${id}`, {
+            method: 'POST',
+            body: JSON.stringify({ Status }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': userToken
+            }
+        });
+        const result = await response.json()
+        if (result.status == 'TokenExpired') {
+            handleTokenExpired()
+            onspinner(false);
+        } else {
+            console.log('handleRideRequestStatus : ', result)
+            window.location.reload()
+            onspinner(false);
+        }
+    }
+
     return (
         <div>
             <ScrollViewTop />
@@ -299,6 +326,12 @@ function SharedRides({ onspinner }) {
                                             {
                                                 ['Payment Pending', 'Not Pickup'].includes(item.Status) &&
                                                 <button data-id={item._id} onClick={handleChatModalClick} className='bg-blue-100 hover:bg-blue-500 hover:text-white inline-block text-[14px] rounded px-2.5 py-0.5'>Chat</button>
+                                            }
+                                            {
+                                                ['Not Pickup', 'Pickup'].includes(item.Status) && item.Ride.Status == 'Started' &&
+                                                <button data-id={item._id} data-status={item.Status} onClick={handleChangePickupStatus} className='bg-blue-100 hover:bg-blue-500 hover:text-white inline-block text-[14px] rounded px-2.5 py-0.5'>
+                                                    {item.Status == 'Pickup' ?  'Dropped' : 'Pickup'}
+                                                </button>
                                             }
                                         </div>
                                     </div>

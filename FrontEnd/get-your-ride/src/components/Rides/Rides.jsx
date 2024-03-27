@@ -274,10 +274,11 @@ function Rides({onspinner}) {
 
     const handleUpdateStatus = async (e)=>{
         var id = e.currentTarget.dataset.id;
+        var Status = e.currentTarget.dataset.status;
         onspinner(true);
         const response = await fetch(`${SERVER_API_HOST}/ride/status/${id}`, {
             method: 'POST',
-            body: JSON.stringify({Status:'Started'}),
+            body: JSON.stringify({Status}),
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization':userToken
@@ -362,10 +363,14 @@ function Rides({onspinner}) {
                                         <p className='flex items-center mt-1 text-[12px] text-gray-600'>{getPickupTime(item.StartDateTime, 0)}</p>
                                         <div className='flex'>
                                             <p className='bg-green-100 inline-block mt-2 text-[14px] rounded me-2 px-2.5 py-0.5'>{item.Status}</p>
-                                            <p className='bg-green-100 inline-block mt-2 text-[14px] rounded me-2 px-2.5 py-0.5'>3 Seeker</p>
+                                            <p className='bg-green-100 inline-block mt-2 text-[14px] rounded me-2 px-2.5 py-0.5'>{item.SeekerCount} Seeker</p>
                                             {
                                                 item.Status == 'Not Started' &&
-                                                <p onClick={handleUpdateStatus} data-id={item._id} className='bg-blue-100 hover:bg-blue-600 hover:text-white inline-block mt-2 text-[14px] rounded me-2 px-2.5 py-0.5'>Start</p>
+                                                <p onClick={handleUpdateStatus} data-status='Started' data-id={item._id} className='bg-blue-100 hover:bg-blue-600 hover:text-white inline-block mt-2 text-[14px] rounded me-2 px-2.5 py-0.5'>Start</p>
+                                            }
+                                            {
+                                                item.Status == 'Started' &&
+                                                <p onClick={handleUpdateStatus} data-status='Completed' data-id={item._id} className='bg-blue-100 hover:bg-blue-600 hover:text-white inline-block mt-2 text-[14px] rounded me-2 px-2.5 py-0.5'>Mark Completed</p>
                                             }
                                         </div>
                                     
@@ -435,7 +440,7 @@ function Rides({onspinner}) {
                                 </div>
                                 <div>
                                     <label htmlFor="StartDateTime" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">StartDateTime</label>
-                                    <input onChange={handleInputChange} value={new Date().toISOString().slice(0, 16)} type="datetime-local" name="StartDateTime" id="StartDateTime" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required/>
+                                    <input onChange={handleInputChange} type="datetime-local" name="StartDateTime" id="StartDateTime" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required/>
                                 </div>
                             </div>
                             <div className='h-[250px] md:h-full md:order-2 order-1 shadow-md rounded-md overflow-hidden'>

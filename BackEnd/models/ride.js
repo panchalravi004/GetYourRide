@@ -28,6 +28,10 @@ const rideSchema = new mongoose.Schema(
             type:String,
             enum:['Not Started','Started','Complete']
         },
+        SeekerCount:{
+            type:Number,
+            default:0
+        },
         StartDateTime:{
             type:Date,
         },

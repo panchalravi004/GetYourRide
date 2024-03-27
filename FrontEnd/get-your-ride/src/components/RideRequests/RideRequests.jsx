@@ -246,7 +246,7 @@ function RideRequests({ onspinner }) {
 
                 if (result.status == 'Success') {
                     toast.success('Payment link is created!')
-                    toast.success('Payment link expired in 5hours!')
+                    toast.success('Payment link expired in 5 hours!')
                     setTimeout(() => {
                         onspinner(false)
                         window.location.href = result.shortURL;

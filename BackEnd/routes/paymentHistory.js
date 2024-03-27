@@ -6,7 +6,8 @@ const {
     handleGetPaymentHistoryById, 
     handleUpdatePaymentHistoryById, 
     handleDeletePaymentHistoryById,
-    handleUpdatePaymentHistory
+    handleUpdatePaymentHistory,
+    handleGetAllPaymentTotalByUserId
 } = require('../controllers/paymentHistory');
 
 const { verifyToken } = require('../middleware');
@@ -20,6 +21,7 @@ router
 .post(handleCreatePaymentHistory)
 
 router.post('/status/:id', verifyToken, handleUpdatePaymentHistory)
+router.get('/walletamount', verifyToken, handleGetAllPaymentTotalByUserId)
 
 router
 .route("/:id")

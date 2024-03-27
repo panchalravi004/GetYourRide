@@ -1,5 +1,6 @@
 const { GEOAPIFY_API_KEY } = require('../config');
 const Ride = require('../models/ride');
+const RideSharing = require('../models/rideSharing');
 const fetch = require('node-fetch');
 
 async function handleCreateRide(req, res) {
@@ -53,7 +54,7 @@ async function handleGetRideById(req, res) {
 
 async function handleGetRidePlanning(req, res) {
 
-    const rides = await Ride.find({Status:'Not Started', User:{$ne: req.userId}});
+    const rides = await Ride.find({Status:'Not Started', User:{$ne: req.userId}, AvailableSeat:{$gt: 0}});
 
     const {
         PickupLocation,
@@ -229,6 +230,33 @@ async function handleUpdateRideStatusById(req, res) {
     }
 }
 
+async function handleUpdateRideSeekerCount(req, res) {
+    try {
+        const {
+            RideSharingId
+        } = req.body;
+
+        var rideSharingRecord = await RideSharing.findById(RideSharingId).populate('Ride')
+
+        await Ride.findByIdAndUpdate(rideSharingRecord.Ride._id,{
+            SeekerCount:rideSharingRecord.Ride.SeekerCount+1,
+            AvailableSeat:rideSharingRecord.Ride.AvailableSeat-1
+        })
+
+        return res.json({
+            status: 'Success',
+            message: 'Ride seeker-count updated successfully!',
+            rideSharingRecord
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            status: 'Error',
+            message: 'Failed to update ride seeker-count!'
+        });
+    }
+}
+
 async function handleDeleteRideById(req, res) {
     try {
         await Ride.findByIdAndDelete(req.params.id);
@@ -251,5 +279,6 @@ module.exports = {
     handleUpdateRideById,
     handleDeleteRideById,
     handleUpdateRideStatusById,
-    handleGetRidePlanning
+    handleGetRidePlanning,
+    handleUpdateRideSeekerCount
 };
