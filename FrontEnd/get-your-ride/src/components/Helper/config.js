@@ -1,4 +1,4 @@
-const GEOAPIFY_API_KEY = "23924794d72c4bae8f3299f6aec64634";
+const GEOAPIFY_API_KEY = "API_KEY";
 const SERVER_API_HOST = "http://localhost:8000/api/v1";
 
 export {

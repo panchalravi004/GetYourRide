@@ -103,7 +103,7 @@ async function handleGetAllPaymentTotalByUserId(req, res) {
         {$group : {_id:null, totalAmount:{$sum:"$Amount"}}}
     ]);
     
-    console.log('paymentHistories ', paymentHistories.length);
+    // console.log('paymentHistories ', paymentHistories.length);
 
     // Retrieve the total amount from the result
     const totalAmount = paymentHistories.length > 0 ? paymentHistories[0].totalAmount : 0;
