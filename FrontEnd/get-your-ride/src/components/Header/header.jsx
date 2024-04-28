@@ -153,6 +153,26 @@ function Header() {
         {label:'Contact Us',route:'/contact'}
     ]
 
+    const toggleProfileModal = ()=>{
+        document.querySelector('#userDropdown').classList.toggle('hidden')
+    }
+
+    const toggleMenuBarModal = ()=>{
+        document.querySelector('#mobile-menu-2').classList.toggle('hidden')
+    }
+
+    const toggleNotificationModal = ()=>{
+        var temp = document.querySelector('#default-modal')
+
+        if(temp.classList.contains('hidden')){
+            temp.classList.remove('hidden')
+            temp.style.display = 'flex';
+        }else{
+            temp.style.display = 'none';
+            temp.classList.add('hidden')
+        }
+    }
+
     return (
         <div>
             <Spinner isLoading={loading} />
@@ -164,14 +184,14 @@ function Header() {
                             <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">GetYourRide</span>
                         </a>
                         <div className="flex items-center lg:order-2 gap-4">
-                            <button data-modal-target="default-modal" data-modal-toggle="default-modal" type="button" className="relative inline-flex items-center text-sm text-center text-white">
+                            <button onClick={toggleNotificationModal} type="button" className="relative inline-flex items-center text-sm text-center text-white">
                                 <img src={notificationIcon} className="mr-3 h-4 sm:h-6" />
                                 <span className="sr-only">Notifications</span>
                                 <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-orange-700 border-2 border-white rounded-full -top-1 -end-1 dark:border-gray-900">{ridePendingRequest.length}</div>
                             </button>
                             <div>
-                                <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className="w-7 h-7 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 cursor-pointer shadow-sm hover:shadow" src={userIcon} alt="User dropdown" />
-                                <div id="userDropdown" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                <img id="avatarButton" type="button" onClick={toggleProfileModal} className="w-7 h-7 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 cursor-pointer shadow-sm hover:shadow" src={userIcon} alt="User dropdown" />
+                                <div id="userDropdown" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600" style={{position:'absolute', right:'50px'}}>
                                     <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
                                         <div>{userInfo.firstName} {userInfo.lastName}</div>
                                         <div className="font-medium truncate">{userInfo.email}</div>
@@ -186,7 +206,7 @@ function Header() {
                                     </div>
                                 </div>
                             </div>
-                            <button data-collapse-toggle="mobile-menu-2" type="button" className="inline-flex items-center p-1 ml-1 text-sm text-gray-800 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
+                            <button onClick={toggleMenuBarModal} type="button" className="inline-flex items-center p-1 ml-1 text-sm text-gray-800 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
                                 <span className="sr-only">Open main menu</span>
                                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path></svg>
                                 <svg className="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
@@ -210,7 +230,7 @@ function Header() {
                 </nav>
             </header>
 
-            <div id="default-modal" tabIndex="-1" aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div id="default-modal" style={{background:'#80808052'}} tabIndex="-1" aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                 <div className="relative p-4 w-full max-w-2xl max-h-full">
                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                         <div className="flex items-center justify-between p-3 border-b rounded-t dark:border-gray-600">
@@ -218,7 +238,7 @@ function Header() {
                                 Notifications
                                 <p className='text-[12px] text-slate-600 text-center'>Stay updated with pending notifications.</p>
                             </h3>
-                            <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
+                            <button onClick={toggleNotificationModal} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
                                 <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                                 </svg>

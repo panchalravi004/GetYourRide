@@ -364,7 +364,7 @@ function RideRequests({ onspinner }) {
                                         <p className='mt-1 text-[15px]'>{item.Pickup.text} To {item.DropOff.text}</p>
                                         <p className='mt-1 text-[12px] text-gray-600'>• {item.Ride.Source.text} To {item.Ride.Destination.text}</p>
                                         <p className='flex items-center mt-1 text-[12px] text-gray-600'>
-                                            ${item.Ride.ChargePerMile} Per/Mile, {convertToTimeString(item.Duration)}, {parseInt(item.Distance / 1000)}Km,
+                                            ${item.Ride.ChargePerMile} Per/Mile, {convertToTimeString(item.Duration)}, {parseInt(item.Distance / 1000)}Mile,
                                             <img src={carSeatIcon} width={20} />
                                             {item.Ride.AvailableSeat}x Available
 

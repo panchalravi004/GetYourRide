@@ -46,7 +46,7 @@ function AvailableRide({ data , onactiverideclick}) {
                 <p className='mt-1 text-[14px] '>• {data.Source.text}</p>
                 <p className='mt-1 text-[14px] '>• {data.Destination.text}</p>
                 <p className='flex items-center mt-1 text-[12px] text-gray-600'>
-                    ${data.ChargePerMile} Per/Mile, {convertToTimeString(data.ActualTime)}, {parseInt(data.ActualDistance / 1000)}Km,
+                    ${data.ChargePerMile} Per/Mile, {convertToTimeString(data.ActualTime)}, {parseInt(data.ActualDistance / 1000)}Mile,
                     <img src={carSeatIcon} width={20} />
                     {data.AvailableSeat}x
                 </p>

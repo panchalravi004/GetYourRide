@@ -8,7 +8,8 @@ const {
     handleGetRideSharingById, 
     handleUpdateRideSharingById, 
     handleDeleteRideSharingById,
-    handleUpdateRideSharingStatusById
+    handleUpdateRideSharingStatusById,
+    handleRideSharingCashReceived
 } = require('../controllers/rideSharing');
 
 const { verifyToken } = require('../middleware');
@@ -25,6 +26,7 @@ router.get('/seeker',verifyToken,handleGetAllRideSharingsForSeeker)
 router.post('/provider',verifyToken,handleGetAllRideSharingsForProvider)
 
 router.post('/status/:id',verifyToken,handleUpdateRideSharingStatusById)
+router.post('/cashreceived/:id',verifyToken,handleRideSharingCashReceived)
 
 router
 .route("/:id")

@@ -3,6 +3,10 @@
 # dependencies
 /BackEnd/node_modules
 /FrontEnd/get-your-ride/node_modules
+/BackEnd/config.js
+/BackEnd/log.txt
+/FrontEnd/get-your-ride/src/components/Helper/config.js
+
 /.pnp
 .pnp.js
 
@@ -23,3 +27,4 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+

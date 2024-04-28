@@ -19,6 +19,11 @@ const paymentHistorySchema = new mongoose.Schema(
         Amount:{
             type:Number
         },
+        Type:{
+            type:String,
+            enum:['Online','Cash'],
+            default:'Online'
+        },
         Status:{
             type:String,
             enum:['Faild','In Progress','Success']

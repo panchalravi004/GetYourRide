@@ -1,3 +1,4 @@
+const PaymentHistory = require('../models/paymentHistory');
 const RideSharing = require('../models/rideSharing');
 
 async function handleCreateRideSharing(req, res) {
@@ -105,6 +106,38 @@ async function handleUpdateRideSharingStatusById(req, res) {
     }
 }
 
+async function handleRideSharingCashReceived(req, res) {
+    try {
+        const {
+            User,
+            Amount
+        } = req.body;
+
+        var data = {Status:'Not Pickup'}
+
+        await RideSharing.findByIdAndUpdate(req.params.id, data);
+
+        let paymentHistory = new PaymentHistory({
+            RideSharing:req.params.id,
+            Status:'Success',
+            Type:'Cash',
+            User,
+            Amount
+        });
+        await paymentHistory.save();
+        
+        return res.json({
+            status: 'Success',
+            message: 'Cash Received successfully!'
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status: 'Error',
+            message: 'Failed to update ride sharing!'
+        });
+    }
+}
+
 async function handleDeleteRideSharingById(req, res) {
     try {
         await RideSharing.findByIdAndDelete(req.params.id);
@@ -128,5 +161,6 @@ module.exports = {
     handleGetRideSharingById,
     handleUpdateRideSharingById,
     handleDeleteRideSharingById,
-    handleUpdateRideSharingStatusById
+    handleUpdateRideSharingStatusById,
+    handleRideSharingCashReceived
 };

@@ -290,6 +290,39 @@ function SharedRides({ onspinner }) {
         }
     }
 
+    const handleCashReceivedClick = async (e)=>{
+        var id = e.currentTarget.dataset.id;
+        // Call API for cash payment
+        var rideRequestData = rideRequest.find((item) => item._id === id)
+        if (rideRequestData) {
+            onspinner(true);
+
+            let amountToPaid = rideRequestData.Ride.ChargePerMile * parseInt(rideRequestData.Distance / 1000);
+            var data = {
+                User: rideRequestData.Seeker,
+                Amount: amountToPaid,
+            }
+
+            const response = await fetch(`${SERVER_API_HOST}/ridesharing/cashreceived/${id}`, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': userToken
+                }
+            });
+            const result = await response.json()
+            if (result.status === 'TokenExpired') {
+                handleTokenExpired()
+                onspinner(false);
+            } else {
+                console.log('handleCashReceivedClick : ', result)
+                window.location.reload()
+                onspinner(false);
+            }
+        }
+    }
+
     return (
         <div>
             <ScrollViewTop />
@@ -314,7 +347,7 @@ function SharedRides({ onspinner }) {
                                         <p className='mt-1 text-[15px]'>{item.Pickup.text} To {item.DropOff.text}</p>
                                         <p className='mt-1 text-[12px] text-gray-600'>• {item.Ride.Source.text} To {item.Ride.Destination.text}</p>
                                         <p className='flex items-center mt-1 text-[12px] text-gray-600'>
-                                            ${item.Ride.ChargePerMile} Per/Mile, {convertToTimeString(item.Duration)}, {parseInt(item.Distance / 1000)}Km,
+                                            ${item.Ride.ChargePerMile} Per/Mile, {convertToTimeString(item.Duration)}, {parseInt(item.Distance / 1000)}Mile,
                                             <img src={carSeatIcon} width={20} />
                                             {item.Ride.AvailableSeat}x Available
 
@@ -323,6 +356,10 @@ function SharedRides({ onspinner }) {
                                         <div className='flex flex-wrap items-center mt-2 gap-2'>
                                             <p className='bg-green-100 inline-block text-[14px] rounded px-2.5 py-0.5'>{item.Status}</p>
                                             <button data-id={item._id} onClick={handleViewMapModal} className='bg-green-100 hover:bg-green-500 hover:text-white inline-block text-[14px] rounded px-2.5 py-0.5'>View Map</button>
+                                            {
+                                                ['Payment Pending'].includes(item.Status) &&
+                                                <button data-id={item._id} onClick={handleCashReceivedClick} className='bg-blue-100 hover:bg-blue-500 hover:text-white inline-block text-[14px] rounded px-2.5 py-0.5'>Cash Received</button>
+                                            }
                                             {
                                                 ['Payment Pending', 'Not Pickup'].includes(item.Status) &&
                                                 <button data-id={item._id} onClick={handleChatModalClick} className='bg-blue-100 hover:bg-blue-500 hover:text-white inline-block text-[14px] rounded px-2.5 py-0.5'>Chat</button>

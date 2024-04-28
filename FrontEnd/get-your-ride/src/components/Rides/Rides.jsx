@@ -329,6 +329,18 @@ function Rides({onspinner}) {
         return d.toLocaleString()
     }
 
+    const toggleAddRideModal = ()=>{
+        var temp = document.querySelector('#add-ride-modal')
+
+        if(temp.classList.contains('hidden')){
+            temp.classList.remove('hidden')
+            temp.style.display = 'flex';
+        }else{
+            temp.style.display = 'none';
+            temp.classList.add('hidden')
+        }
+    }
+
   return (
     <div >
         <ScrollViewTop/>
@@ -337,7 +349,7 @@ function Rides({onspinner}) {
             <div className='md:col-span-1 md:min-h-[500px]'>
                 <p className='flex items-center justify-between font-bold'>
                     <span className='text-[16px]'>My Rides</span>
-                    <button  data-modal-target="add-ride-modal" data-modal-toggle="add-ride-modal" type='button' className='p-2 bg-black text-[12px] text-white rounded-lg hover:bg-gray-800' >Add Ride</button>
+                    <button onClick={toggleAddRideModal} type='button' className='p-2 bg-black text-[12px] text-white rounded-lg hover:bg-gray-800' >Add Ride</button>
                 </p>
                 <p className='text-[12px] text-gray-600'>
                     Manage and create rides effortlessly.
@@ -356,7 +368,7 @@ function Rides({onspinner}) {
                                         <p className='mt-1 text-[14px]'>{item.Source.text}</p>
                                         <p className='mt-1 text-[14px]'>{item.Destination.text}</p>
                                         <p className='flex items-center mt-1 text-[12px] text-gray-600'>
-                                            ${item.ChargePerMile} Per/Mile, {convertToTimeString(item.Duration)}, {parseInt(item.Distance / 1000)}Km, 
+                                            ${item.ChargePerMile} Per/Mile, {convertToTimeString(item.Duration)}, {parseInt(item.Distance / 1000)}Mile, 
                                             <img src={carSeatIcon} width={20} />
                                             {item.AvailableSeat}x
                                         </p>
@@ -401,7 +413,7 @@ function Rides({onspinner}) {
             </div>
         </div>
 
-        <div id="add-ride-modal" tabIndex="-1" aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full" role="dialog">
+        <div id="add-ride-modal" style={{background:'#80808052'}} tabIndex="-1" aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full" role="dialog">
             <div className="relative p-4 w-full max-w-4xl max-h-full">
                 <form onSubmit={handleFormSubmit} className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                     <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
@@ -409,7 +421,7 @@ function Rides({onspinner}) {
                             Start New Ride
                             <p className='text-[12px] text-slate-600 text-center'>Ready to roll? Start your new ride here.</p>
                         </h3>
-                        <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="add-ride-modal">
+                        <button onClick={toggleAddRideModal} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="add-ride-modal">
                             <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                             </svg>
